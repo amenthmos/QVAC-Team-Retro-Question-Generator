@@ -30,7 +30,10 @@ function parseQuestions(text) {
   // Fallback: if the model didn't use list formatting at all, split on
   // question marks as a last resort.
   if (questions.length === 0) {
-    const bySentence = text.split(/(?<=\?)\s+/).map((s) => s.trim()).filter((s) => s.length > 5);
+    const bySentence = text
+      .split(/(?<=\?)\s+/)
+      .map((s) => s.trim().replace(/^(?:\d+[.)]|-|\*)\s*/, "")) // strip any stray leading bullet/number
+      .filter((s) => s.length > 5);
     questions.push(...bySentence);
   }
   return questions;
